@@ -1,0 +1,22 @@
+{
+  "name": "cypress_tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress": "cypress open"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^13.17.0",
+    "cypress-file-upload": "^5.0.8",
+    "cypress-mailisk": "^2.0.1",
+    "cypress-mailslurp": "^1.10.0",
+    "mailslurp-client": "^15.20.2"
+  },
+  "dependencies": {
+    "mailslurp": "^0.0.1-security",
+    "node-html-parser": "^6.1.13"
+  }
+}

@@ -13,6 +13,7 @@
     "cypress-file-upload": "^5.0.8",
     "cypress-mailisk": "^2.0.1",
     "cypress-mailslurp": "^1.10.0",
+    "cypress-real-events": "^1.14.0",
     "mailslurp-client": "^15.20.2"
   },
   "dependencies": {

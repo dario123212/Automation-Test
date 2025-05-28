@@ -106,7 +106,7 @@ describe('Jobs', () => {
       .should('be.visible')
       .and('contain', MESSAGES.jobCreated);
   };
-
+     // Saving the date of the new job
   const captureScheduledTime = () => {
     return cy.get(SELECTORS.jobRow)
       .first()
@@ -118,10 +118,10 @@ describe('Jobs', () => {
         return cy.wrap(formatted);
       });
   };
-
+      // Verifyin the new job in the job list
   const verifyJobInMainTable = (scheduledTime) => {
     navigateToJobsList();
-    cy.wait(3000); // Consider replacing with better wait strategy
+    cy.wait(3000); 
     
     cy.get(SELECTORS.timeColumn)
       .first()
@@ -146,63 +146,4 @@ describe('Jobs', () => {
       verifyJobInMainTable(scheduledTime);
     });
   });
-
-  // Alternative approach using Page Object Model
-  class JobsPage {
-    visit() {
-      cy.visit(`${TEST_DATA.baseUrl}/jobs/list`);
-      return this;
-    }
-
-    clickCreateJob() {
-      cy.get(SELECTORS.createJobButton).click();
-      return this;
-    }
-
-    selectCustomer(customerName) {
-      cy.get(SELECTORS.customerDropdown).click();
-      cy.wait(1000);
-      cy.get(SELECTORS.searchInput).type(customerName);
-      cy.wait(1000);
-      cy.get('[role="option"]').contains(customerName).click();
-      cy.wait(1000);
-      return this;
-    }
-
-    selectProperty(propertyAddress) {
-      cy.get(SELECTORS.propertyDropdown).click();
-      cy.wait(1000);
-      cy.get('[role="option"]').contains(propertyAddress).click();
-      return this;
-    }
-
-    submitJobCreation() {
-      cy.get(SELECTORS.submitButton).contains('Create Job').click();
-      return this;
-    }
-
-    verifyJobCreated() {
-      cy.get(SELECTORS.successToast)
-        .should('be.visible')
-        .and('contain', MESSAGES.jobCreated);
-      return this;
-    }
-
-    // Add more methods for appointment scheduling...
-  }
-
-  // Example using Page Object Model (commented out)
-  /*
-  it('should create job using Page Object Model', () => {
-    const jobsPage = new JobsPage();
-    
-    jobsPage
-      .visit()
-      .clickCreateJob()
-      .selectCustomer(TEST_DATA.customer)
-      .selectProperty(TEST_DATA.property)
-      .submitJobCreation()
-      .verifyJobCreated();
-  });
-  */
 });

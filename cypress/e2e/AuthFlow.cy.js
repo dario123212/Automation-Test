@@ -27,12 +27,12 @@ const MESSAGES = {
     assertiveMessage: 'Welcome back',
     yesEmail: 'An email with a verification link has been sent to'
   };
-
+// Const to be redirected to the login url
   const navigateToLoginPage = () => {
     cy.visit(`${TEST_DATA.baseUrl}`);
     cy.wait(3000);
   };
- 
+//Const to login to an account 
   const loginToAccount = () => { 
     cy.get(SELECTORS.websiteEmail)
         .click()
@@ -48,7 +48,7 @@ const MESSAGES = {
     cy.get(SELECTORS.loginElement)
         .should('be.visible');
   }
-
+// Const used to logout from an account
   const logOutToAccount = () => {
     cy.get(SELECTORS.userMenu)
         .click();
@@ -61,7 +61,7 @@ const MESSAGES = {
         .should('be.visible')
         .and('contain', MESSAGES.assertiveMessage);
   }
-
+// Const used to check entering an email in forgot password, which is  existing in the system
   const forgetExistingAccount = () => {
     cy.get(SELECTORS.forgetPassword)
         .click();
@@ -82,7 +82,7 @@ const MESSAGES = {
         .should('be.visible');
     
   }
-
+// Const used to check entering an email in forgot password, which is not existing in the system
   const forgetNonExistingAccount = () => {
     cy.get(SELECTORS.forgetPassword)
         .click()

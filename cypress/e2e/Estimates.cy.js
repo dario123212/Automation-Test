@@ -21,7 +21,6 @@ const TEST_DATA = {
     durationMinutes: 'input[name="duration_minutes"]',
     selectDatesButton: 'button:contains("Select dates")',
     timeSlot: 'div.p-6.py-4.px-4.flex.flex-col.gap-1.min-w-\\[180px\\].w-full',
-    
     timeColumn: ':nth-child(4) > time'
   };
   const MESSAGES = {
@@ -82,7 +81,7 @@ const TEST_DATA = {
     // Select user
     cy.get(SELECTORS.userDropdown).eq(1).click();
     cy.get(SELECTORS.searchInput).type(TEST_DATA.user);
-    cy.wait(1000);
+    cy.wait(3000);
     cy.realPress('ArrowDown')
     cy.realPress('Enter');
     

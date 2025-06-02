@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: '0 8 * * *'  # Runs every day at 8:00 AM UTC
+    - cron: "0 8 * * *" # Runs every day at 8:00 AM UTC
 
 jobs:
   cypress-run:
@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm ci
@@ -51,10 +51,10 @@ jobs:
           path: cypress/results
 
     #  - name: Publish test results
-     #   uses: dorny/test-reporter@v1
-     #   if: always()
-     #   with:
-      #    name: Cypress Tests
-      #    path: cypress/results/junit-*.xml
-       #   reporter: go-junit  # Use a more generic JUnit parser
-       #   fail-on-error: false
+    #   uses: dorny/test-reporter@v1
+    #   if: always()
+    #   with:
+    #    name: Cypress Tests
+    #    path: cypress/results/junit-*.xml
+    #   reporter: go-junit  # Use a more generic JUnit parser
+    #   fail-on-error: false

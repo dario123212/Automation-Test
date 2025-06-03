@@ -1,10 +1,11 @@
+// Test data used throughout the test cases
 const TEST_DATA = {
   baseUrl: "https://admin-stg.onehomesolution.com/signin",
   existingEmail: "superadmin@gmail.com",
   nonExistentEmail: "darjo+2342423555@motomtech.com",
   password: "Test1234!",
 };
-
+// Commonly used selectors stored in a constant for easy reuse
 const SELECTORS = {
   websiteEmail: 'input[name="email"]',
   websitePassword: 'input[name="password"]',
@@ -20,6 +21,7 @@ const SELECTORS = {
   nonExistingEmailMessage: ".text-sm",
   loginElement: ".grid",
 };
+// Expected messages used in assertions
 const MESSAGES = {
   successfulMessage: "Successfully created",
   notFoundMessage: "Not found",
@@ -89,13 +91,13 @@ describe("Authentication Test Cases", () => {
     navigateToLoginPage(); //Redirect to login page automatically per test
   });
   it("Forget Password Existing Email", () => {
-    forgetExistingAccount();
+    forgetExistingAccount(); // Check if reset password works with existing email
   });
   it("Forget Password Error for enetering an email which is not existing", () => {
-    forgetNonExistingAccount();
+    forgetNonExistingAccount(); // Check error message for non-existent email in reset password
   });
   it("Login and Logout", () => {
-    loginToAccount();
-    logOutToAccount();
+    loginToAccount(); //Logs in successfully
+    logOutToAccount(); // Then Logs out succesffully
   });
 });

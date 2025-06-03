@@ -1,3 +1,4 @@
+// Test data used throughout the test cases
 const TEST_DATA = {
   baseUrl: "https://admin-stg.onehomesolution.com",
   customer: "Tech Dar",
@@ -5,6 +6,7 @@ const TEST_DATA = {
   user: "New User",
   duration: { hours: "1", minutes: "0" },
 };
+// Commonly used selectors stored in a constant for easy reuse
 const SELECTORS = {
   createEstimateButton: '[aria-label="Add New"]',
   customerDropdown: ".bg-gray-100 > .flex > :nth-child(2) > .inline-flex",
@@ -23,6 +25,7 @@ const SELECTORS = {
   timeSlot: "div.p-6.py-4.px-4.flex.flex-col.gap-1.min-w-\\[180px\\].w-full",
   timeColumn: ":nth-child(4) > time",
 };
+// Expected messages used in assertions
 const MESSAGES = {
   estimateCreated: "Successfully created",
   estSection: "Schedule",
@@ -97,6 +100,7 @@ const scheduleAppointment = () => {
     .should("be.visible")
     .and("contain", MESSAGES.estimateCreated);
 };
+// Captures the scheduled date and time text from the estimate confirmation view
 const captureScheduledTime = () => {
   return cy
     .get(SELECTORS.estimateDateTime)
@@ -106,6 +110,7 @@ const captureScheduledTime = () => {
       return cy.wrap(formatted);
     });
 };
+// Verifies that the scheduled time appears in the estimate list's time column
 const verifyEstimateInMainTable = (scheduledTime) => {
   navigateToEstimateList();
 
@@ -116,16 +121,17 @@ const verifyEstimateInMainTable = (scheduledTime) => {
 };
 
 it("should create a estimate successfully", () => {
-  navigateToEstimateList();
-  createEstimate();
-  verifyEstimateCreation();
+  navigateToEstimateList(); // Navigate to estimate list
+  createEstimate(); // Perform estimate creation
+  verifyEstimateCreation(); // Verify it's created (e.g., success toast or entry exists)
 });
 
+// Test case to create an estimate, schedule an appointment, and validate time
 it("should create job and schedule appointment", () => {
-  navigateToEstimateList();
-  createEstimate();
-  scheduleAppointment();
-  verifyEstimateCreation();
+  navigateToEstimateList(); // Start from estimate list
+  createEstimate(); // Create an estimate
+  scheduleAppointment(); // Schedule an appointment for that estimate
+  verifyEstimateCreation(); // Confirm estimate creation success
 
   // Capture and verify scheduled time
   captureScheduledTime().then((scheduledTime) => {

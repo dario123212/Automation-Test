@@ -1,5 +1,5 @@
 describe("Jobs", () => {
-  // Constants and test data
+  // Test data used throughout the test cases
   const TEST_DATA = {
     baseUrl: "https://admin-stg.onehomesolution.com",
     customer: "Tech Dar",
@@ -7,7 +7,7 @@ describe("Jobs", () => {
     user: "New User",
     duration: { hours: "1", minutes: "0" },
   };
-
+  // Commonly used selectors stored in a constant for easy reuse
   const SELECTORS = {
     createJobButton: '[data-testid="create-job-btn"], .py-4 > .bg-primary',
     customerDropdown: ".bg-gray-100 > .flex > :nth-child(2) > .inline-flex",
@@ -26,7 +26,7 @@ describe("Jobs", () => {
     jobRow: 'tr[data-has-link="true"]',
     timeColumn: ":nth-child(4) > time",
   };
-
+  // Expected messages used in assertions
   const MESSAGES = {
     jobCreated: "Successfully created",
     appointments: "Appointments",
@@ -41,7 +41,7 @@ describe("Jobs", () => {
   const navigateToJobsList = () => {
     cy.visit(`${TEST_DATA.baseUrl}/jobs/list`);
   };
-
+  // Function to create a job
   const createJob = () => {
     cy.get(SELECTORS.createJobButton).click();
 
@@ -57,7 +57,7 @@ describe("Jobs", () => {
     // Submit job creation
     cy.get(SELECTORS.submitButton).contains("Create Job").click();
   };
-
+  // Verification that the new job was created
   const verifyJobCreation = () => {
     cy.get(SELECTORS.successToast)
       .should("be.visible")
@@ -67,7 +67,7 @@ describe("Jobs", () => {
       .should("exist")
       .and("contain", MESSAGES.appointments);
   };
-
+  // Creating a schedule for the new job
   const scheduleAppointment = () => {
     // Click schedule button
     cy.get(SELECTORS.scheduleButton).first().click();
@@ -129,16 +129,17 @@ describe("Jobs", () => {
   };
 
   it("should create a job successfully", () => {
-    navigateToJobsList();
-    createJob();
-    verifyJobCreation();
+    navigateToJobsList(); // Go to the Jobs list page
+    createJob(); // Fill out and submit the job creation form
+    verifyJobCreation(); // Confirm the job was created (e.g., toast or list entry)
   });
 
+  // Test case: Creates a job, then schedules an appointment for it
   it("should create job and schedule appointment", () => {
-    navigateToJobsList();
-    createJob();
-    verifyJobCreation();
-    scheduleAppointment();
+    navigateToJobsList(); // Navigate to the Jobs list page
+    createJob(); // Perform the job creation process
+    verifyJobCreation(); // Verify successful job creation
+    scheduleAppointment(); // Schedule an appointment for the created job
 
     // Capture and verify scheduled time
     captureScheduledTime().then((scheduledTime) => {

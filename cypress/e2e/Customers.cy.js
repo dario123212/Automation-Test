@@ -1,3 +1,4 @@
+// Test data used throughout the test cases
 const TEST_DATA = {
   baseUrl: "https://admin-stg.onehomesolution.com/customers/list",
   propertyUrl: "https://admin-stg.onehomesolution.com/customers/properties",
@@ -13,7 +14,7 @@ const TEST_DATA = {
   nameProperty: "Tester",
   customerProperty: "Darjo Newer",
 };
-
+// Commonly used selectors stored in a constant for easy reuse
 const SELECTORS = {
   createCustomerButton: '[aria-label="Add New"]',
   firstName: 'input[name="first_name"]',
@@ -38,21 +39,23 @@ const SELECTORS = {
   propertyButton: 'a[href$="/profile/new-property" i]',
   searchInput: 'input[placeholder="Search ..."]',
 };
+// Expected messages used in assertions
 const MESSAGES = {
   manualAddressButton: "Add an address manually",
   successfulToast: "Successfully created",
   locationSelector: "Select location",
   deleteOption: "Delete",
 };
-
+//Navigate to Customer List
 const navigateToCustomerPage = () => {
   cy.visit(`${TEST_DATA.baseUrl}`);
 };
-
+// Navigate to Property List and opens the Create Property Modal. Added the button just cause of the main function for creating the property can't have it as it is used on another function which doesn't have the button
 const navigateToPropertyList = () => {
   cy.visit(TEST_DATA.propertyUrl);
   cy.get(SELECTORS.createCustomerButton).click();
 };
+// Assertion for the customer button when creating a property. If it doesn't, it means that it belongs to the property creation after creating a customer account. If it does it means it is just property creation for an existing customer.
 const clickIfSelectCustomerButtonExists = () => {
   cy.get("body").then(($body) => {
     if ($body.find('button:contains("Select Customer")').length > 0) {
@@ -64,10 +67,10 @@ const clickIfSelectCustomerButtonExists = () => {
     }
   });
 };
-
+// Creates a customer profile with dynamically generated name and email
 const createCustomerProfile = () => {
   cy.get(SELECTORS.createCustomerButton).click();
-
+  // Generate a random name and type it into the First Name field
   cy.generateRandomNumber(10).then((randomNumber) => {
     const dynamicName = `${TEST_DATA.name}+${randomNumber}`;
     console.log("Generated name:", dynamicName);
@@ -78,7 +81,7 @@ const createCustomerProfile = () => {
   cy.get(SELECTORS.lastName).click().type(TEST_DATA.last);
 
   cy.get(SELECTORS.phoneNumber).click().type(TEST_DATA.phone);
-
+  // Generate a unique email and type it
   cy.generateRandomNumber(10).then((randomNumber) => {
     const dynamicEmail = `${TEST_DATA.name}+${randomNumber}${TEST_DATA.emailDomain}`;
     console.log("Generated email:", dynamicEmail);
@@ -94,10 +97,10 @@ const createCustomerProfile = () => {
 
   cy.get(SELECTORS.submitButton).click();
 };
-
+// Creates a property profile with a random address
 const createPropertyProfile = () => {
   cy.get(SELECTORS.addManually).contains(MESSAGES.manualAddressButton).click();
-
+  // Generate a random address and type it
   cy.generateRandomWords(5).then((addressWords) => {
     const propertyAddress = addressWords.join(" ");
     console.log("Generated property address:", propertyAddress);
@@ -129,7 +132,7 @@ const createPropertyProfile = () => {
     .should("be.visible")
     .and("contain", MESSAGES.successfulToast);
 };
-
+// Verifies if the new generated customer email appears in the first table row of the customer list after creation
 const verifyCustomerCreation = () => {
   cy.get("@generatedEmail").then((email) => {
     cy.get(SELECTORS.tableRow)
@@ -139,6 +142,7 @@ const verifyCustomerCreation = () => {
       .should("contain.text", email);
   });
 };
+// Deletes the new customer after creation
 const deleteCustomer = () => {
   cy.get(SELECTORS.tableRow)
     .first()
@@ -163,15 +167,15 @@ describe("Customers Test Cases", () => {
     cy.Login_UI();
   });
   it("Create a Customer & Delete it", () => {
-    navigateToCustomerPage();
-    createCustomerProfile();
-    createPropertyProfile();
-    verifyCustomerCreation();
-    deleteCustomer();
+    navigateToCustomerPage(); // Navigate to customer list
+    createCustomerProfile(); // Create a new customer
+    createPropertyProfile(); // Creating property for this new customer (same flow)
+    verifyCustomerCreation(); // Verify the new customer is in the list
+    deleteCustomer(); // Delete the new customer and verify removal
   });
 
   it("Create a Property & Delete it", () => {
-    navigateToPropertyList();
-    createPropertyProfile();
+    navigateToPropertyList(); // Go to property list
+    createPropertyProfile(); // Create a new property (different flow from customer creation)
   });
 });
